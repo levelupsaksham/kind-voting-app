@@ -13,7 +13,7 @@ This guide covers the steps to:
 - Install and configure Argo CD.
 - Connect and manage your Kubernetes cluster with Argo CD.
 - Access_Key=938jdfjsjfdjj
-- Secret_Key=999jdjdjd
+- Secret_Key=999jdjdjdsss
 
 
 ## Architecture
