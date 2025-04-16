@@ -1,0 +1,40 @@
+name: Block PR if Qodo Suggestions Are Unresolved
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+jobs:
+  check-qodo-comments:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+      issues: read
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Check Qodo bot comments
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          pr_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
+          repo_full_name="${{ github.repository }}"
+          comments=$(gh pr view "$pr_number" --repo "$repo_full_name" --comments)
+
+          echo "Checking for unresolved Qodo suggestions..."
+
+          # Filter Qodo comments with high/medium impact
+          qodo_issues=$(echo "$comments" | grep -A5 'qodo-merge-pro\[bot\]' | grep -E "High|Medium")
+
+          if [[ -n "$qodo_issues" ]]; then
+            echo "❌ Qodo suggestions with High/Medium impact found and not resolved:"
+            echo "$qodo_issues"
+            echo "Please resolve or reply to these before merging."
+            exit 1
+          else
+            echo "✅ No unresolved High/Medium Qodo suggestions found."
+          fi
+
+    shell: bash
