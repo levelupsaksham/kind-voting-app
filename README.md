@@ -13,6 +13,8 @@ This guide covers the steps to:
 - Install and configure Argo CD.
 - Connect and manage your Kubernetes cluster with Argo CD.
 
+ACCESS Key: XYZ123
+
 
 ## Architecture
 
