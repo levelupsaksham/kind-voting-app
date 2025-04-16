@@ -12,7 +12,8 @@ This guide covers the steps to:
 - Set up the Kubernetes Dashboard.
 - Install and configure Argo CD.
 - Connect and manage your Kubernetes cluster with Argo CD.
-
+- Test_Key= 7282jjKll
+- Access_Key=345jdljsfsfmsfssfs
 
 ## Architecture
 
