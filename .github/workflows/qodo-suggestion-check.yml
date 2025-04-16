@@ -1,4 +1,3 @@
-# .github/workflows/qodo-suggestion-check.yml
 name: Block PR if Qodo Suggestions Are Unresolved
 
 on:
@@ -8,7 +7,8 @@ on:
     types: [opened, edited, synchronize, reopened]
 
 jobs:
-  check-qodo-comments:
+  qodo-suggestion-check:  # <-- this will become the name of the status check
+    name: Qodo Suggestion Checker
     runs-on: ubuntu-latest
     permissions:
       pull-requests: read
@@ -20,7 +20,7 @@ jobs:
 
       - name: Check Qodo bot comments
         env:
-          GITHUB_TOKEN: ${{ secrets.Test_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TEST_TOKEN }}
         shell: bash
         run: |
           pr_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
