@@ -1,7 +1,10 @@
+# .github/workflows/qodo-suggestion-check.yml
 name: Block PR if Qodo Suggestions Are Unresolved
 
 on:
   pull_request:
+    branches:
+      - dev
     types: [opened, edited, synchronize, reopened]
 
 jobs:
@@ -17,17 +20,16 @@ jobs:
 
       - name: Check Qodo bot comments
         env:
-          GITHUB_TOKEN: ${{ secrets.TEST_TOKEN }}
-        shell: bash  # ✅ Moved this inside the step correctly
+          GITHUB_TOKEN: ${{ secrets.Test_TOKEN }}
+        shell: bash
         run: |
           pr_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
           repo_full_name="${{ github.repository }}"
-          
+
           echo "Fetching PR comments..."
           comments=$(gh pr view "$pr_number" --repo "$repo_full_name" --comments)
 
           echo "Checking for unresolved Qodo suggestions..."
-
           qodo_issues=$(echo "$comments" | grep -A5 'qodo-merge-pro\[bot\]' | grep -E "High|Medium")
 
           if [[ -n "$qodo_issues" ]]; then
