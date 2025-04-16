@@ -18,14 +18,16 @@ jobs:
       - name: Check Qodo bot comments
         env:
           GITHUB_TOKEN: ${{ secrets.TEST_TOKEN }}
+        shell: bash  # ✅ Moved this inside the step correctly
         run: |
           pr_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
           repo_full_name="${{ github.repository }}"
+          
+          echo "Fetching PR comments..."
           comments=$(gh pr view "$pr_number" --repo "$repo_full_name" --comments)
 
           echo "Checking for unresolved Qodo suggestions..."
 
-          # Filter Qodo comments with high/medium impact
           qodo_issues=$(echo "$comments" | grep -A5 'qodo-merge-pro\[bot\]' | grep -E "High|Medium")
 
           if [[ -n "$qodo_issues" ]]; then
@@ -36,5 +38,3 @@ jobs:
           else
             echo "✅ No unresolved High/Medium Qodo suggestions found."
           fi
-
-    shell: bash
