@@ -15,6 +15,8 @@ This guide covers the steps to:
 - Access_Key=938jdfjsjfdjj
 - Secret_Key=999jdjdjd
 
+ACCESS Key: XYZ123
+
 
 ## Architecture
 
